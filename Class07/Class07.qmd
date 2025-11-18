@@ -1,0 +1,197 @@
+---
+title: "Class 7: Machine Learning"
+author: "Yuntian Zhu (PID: A17816597)"
+format: pdf
+---
+
+Today we will beu sing fundamental machine learning methods including clustering and dimensionality reduction.
+
+##K-means clustering
+
+To see how this works, let's first make up some data to cluster, where we know what the answer should be. We can use the `rnorm()` function to help here.
+
+```{r}
+x <- c(rnorm(30, mean = -3),rnorm(30, mean = 3))
+y <- rev(x)
+```
+
+```{r}
+x <- cbind(x,y)
+plot(x)
+```
+
+The function for K-means clustering in "base" R is `kmeans()`
+
+```{r}
+k <- kmeans(x, 2)
+k
+```
+
+To get the results of the returned list object, we can use the dollar `$` syntax
+
+> Q. How many points are in each vector?
+
+```{r}
+k$size
+```
+
+> Q. What ‘component’ of your result object details
+     - cluster assignment/membership?
+     - cluster center?
+     
+```{r}
+k$cluster
+k$centers
+```
+
+> Q. Plot x colored by the kmeans cluster assignment and add cluster centers as blue points
+
+```{r}
+plot(x, col = c("blue", "red"))
+```
+
+```{r}
+plot(x, col = 2)
+```
+
+
+```{r}
+plot(x, col = k$cluster, pch = 16)
+points(k$centers, col = "blue", pch =15, cex =2)
+```
+
+K-means clustering is very popular, as it is very fast and relatively straightforward. It takes numeric data as input and returns the cluster membership, etc. 
+
+The "issue" is we tell `kmeans()` how many clusters we want!
+
+> Q. Run kmeans again and cluster into 4 groups and plot the results like we did above?
+
+```{r}
+k4 <- kmeans(x, 4)
+plot(x, col = k4$cluster, pch = 16)
+points(k4$centers, col = "blue", pch =15, cex =2)
+```
+
+Make a scree plot to show what is the best value of k
+
+```{r}
+wss <- numeric(5)
+for (k in 1:5) {
+  wss[k] <- kmeans(x, centers = k)$tot.withinss
+}
+plot(1:5, wss, type = "b", xlab = "Number of clusters (k)", ylab = "Total within SS")
+
+```
+
+## Hierarchical Clustering
+
+The main "base" R function for Hierarchical Clustering is called `hclust()`. Here, we cannot input our data. We need to first calculate a distance matrix (e.g. `dist()`) for our data and use this as the input to `hclust`
+
+```{r}
+d <- dist(x)
+hc <- hclust(d)
+hc
+```
+
+There is a plot method for hclust results. Le us try it
+
+```{r}
+plot(hc)
+abline(h = 8, col = "red")
+```
+
+To get our cluster "membership" vector (i. r. our main clustering result), we can "cut the tree at a given height or at a height that yields a given "k" groups. 
+
+
+```{r}
+cutree(hc, h = 8)
+```
+
+
+```{r}
+groups <- cutree(hc, k = 2)
+```
+
+> Q. Plot the data with our hclust result coloring
+
+```{r}
+plot (x, col = groups)
+```
+
+## Principal Component Analysis (PCA)
+## PCA of UK food data
+
+Import food data from an online CSV file
+
+```{r}
+url <- "https://tinyurl.com/UK-foods"
+x <- read.csv(url)
+head(x)
+```
+
+
+This is the first method to solve the row names problem
+```{r}
+rownames (x) <- x[, 1]
+x <- x[,-1]
+x
+```
+
+This is a more robust method to solve the row names problem
+```{r}
+x <- read.csv(url, row.names = 1)
+x
+```
+
+Plot with the codes in lab sheet
+```{r}
+barplot(as.matrix(x), beside=T, col=rainbow(nrow(x)))
+```
+
+If you want a stacked plot, you just delete "beside = T"
+
+```{r}
+barplot(as.matrix(x), col=rainbow(nrow(x)))
+```
+
+There is one plot that can be useful for small datasets:
+```{r}
+pairs(x, col=rainbow(10), pch=16)
+```
+
+If the points lie on the diagonal of the plot, it means that the country it represents eats similar food as the country in the row. 
+
+> Main point: It can be difficult to spot major trends and patterns even in  relatively small multivariable datasets (here we only have 17 dimensions, but typically we have 1000s)
+
+## PCAS to the rescue
+
+The main function in "base" R for PCA is called `prcomp()`
+
+We need to take the transpose of our data, so the "food" are in the columns
+```{r}
+pca <- prcomp(t(x))
+summary(pca)
+```
+
+```{r}
+cols <- c("orange", "red", "blue", "green")
+plot(pca$x[,1], pca$x[,2], col = cols, pch = 16)
+```
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+ggplot(pca$x) +
+  aes(PC1,PC2) +
+  geom_point(col = cols)
+```
+
+```{r}
+ggplot(pca$rotation) +
+  aes(PC1, rownames(pca$rotation)) +
+  geom_col()
+```
+
+PCA looks very useful in terms of dimensionality reduction, and we will come back to describe this further next week.
