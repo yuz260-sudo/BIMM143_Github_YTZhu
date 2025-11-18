@@ -1,0 +1,229 @@
+---
+title: "Class11"
+author: "Yuntian Zhu (PID: A17816597)"
+format: pdf
+toc: true
+---
+
+## AlphaFold Data Base (AFDB)
+
+The EBI maintains the largest database of AlphaFold structure prediction models at: https://alphafold.ebi.ac.uk/
+
+FOr last class, we saw that the PDB had 244290 structures (October 2025).
+
+The total number of protein sequences in Uniprot is 199579901.
+
+```{r}
+(244290/199579901)*100
+```
+
+Only about 0.1% proteins on Uniprot have structures. This is a really tiny fraction. 
+
+AFDB is attempting to address this gap. 
+
+There are two "Quality Scores" for AlphaFold. One is fro residues (i.e. each amino acid) called pLDDT. The other PAE score measures the confidence in the relative position of two residue (i.e. each amino acid pair).
+
+## Generating your own structure predictions
+
+Below is the superimpose by chian of the five predicted structures by AlphaFold.
+
+![](Superimpose.png)
+
+Below is the structure of the top structure predicted by AlphaFold.
+
+![](Top.png)
+
+Below is picture of pLDDT scores shown by colors for the top ranked model
+
+![](Top_pLDDT.png)
+
+Below is picture of pLDDT scores shown by colors for the model 5
+
+![](Rank5_pLDDT.png)
+We can see that the rank1 model has a significantly higher confidence than the rank5 model.
+
+## Custom analysis of resulting models in R
+
+Read key result files into R. The first thing that I need to know is what my results directory is called. 
+
+```{r}
+# Change this for YOUR results dir name
+results_dir <- "HIVPrDimer_23119_2/"
+# File names for all PDB models
+pdb_files <- list.files(path=results_dir,
+                        pattern="*.pdb",
+                        full.names = TRUE)
+
+# Print our PDB file names
+basename(pdb_files)
+```
+
+```{r}
+library(bio3d)
+
+# Read all data from Models 
+#  and superpose/fit coords
+pdbs <- pdbaln(pdb_files, fit=TRUE, exefile="msa")
+pdbs
+```
+
+The alignment makes sense here, since all the five pdb files have the same sequences. 
+
+RMSD is a standard measure of structural distance between coordinate sets. We can use the `rmsd()` function to calculate the RMSD between all pairs models.
+
+```{r}
+rd <- rmsd(pdbs, fit=T)
+range(rd)
+```
+Draw a heatmap of these RMSD matrix values
+
+```{r}
+library(pheatmap)
+
+colnames(rd) <- paste0("Rank", 1:5)
+rownames(rd) <- paste0("Rank", 1:5)
+pheatmap(rd)
+
+```
+
+From the heatmap, we can find that the models that are ranked 1st, 2nd and 3rd are quite similar to each other. On the other hand, the two last ranked models are very similar to each other. 
+
+Now lets plot the pLDDT values across all models. Recall that this information is in the B-factor column of each model and that this is stored in our aligned pdbs object as pdbs$b with a row per structure/model.
+
+```{r}
+plotb3(pdbs$b[1,], typ="l", lwd=2, sse=pdbs)
+points(pdbs$b[2,], typ="l", col="red")
+points(pdbs$b[3,], typ="l", col="blue")
+points(pdbs$b[4,], typ="l", col="darkgreen")
+points(pdbs$b[5,], typ="l", col="orange")
+abline(v=100, col="gray")
+```
+Notably, 3 of the 5 models have high pLDDT confidence throughout the residues, while the other two models have certain regions where pLDDT values are low. 
+
+We can improve the superposition/fitting of our models by finding the most consistent “rigid core” common across all the models. 
+
+```{r}
+core <- core.find(pdbs)
+core.inds <- print(core, vol=0.5)
+xyz <- pdbfit(pdbs, core.inds, outpath="corefit_structures")
+```
+
+Below is the picture of the updated superipose
+
+![](Superimpose2.png)
+
+Examine the RMSF scores of these structures
+
+```{r}
+rf <- rmsf(xyz)
+
+plotb3(rf, sse=pdbs)
+abline(v=100, col="gray", ylab="RMSF")
+```
+
+It can be clearly found that the structures of the first chain are largely unchanged across all the 5 prediction. However, the second chain has a very high variability. 
+
+## Predicted Alignment Error for domains
+
+Independent of the 3D structure, AlphaFold produces an output called Predicted Aligned Error (PAE). This is detailed in the JSON format result files, one for each model structure.
+
+```{r}
+library(jsonlite)
+
+# Listing of all PAE JSON files
+pae_files <- list.files(path=results_dir,
+                        pattern=".*model.*\\.json",
+                        full.names = TRUE)
+```
+
+```{r}
+pae1 <- read_json(pae_files[1],simplifyVector = TRUE)
+pae5 <- read_json(pae_files[5],simplifyVector = TRUE)
+
+attributes(pae1)
+```
+
+```{r}
+# Per-residue pLDDT scores 
+#  same as B-factor of PDB..
+head(pae1$plddt) 
+```
+
+```{r}
+pae1$max_pae
+pae5$max_pae
+```
+
+We can see that model 1 has a PAE value of around 12.84, while that of model 5 is around 29.59. Therefore, this further confirms that model 1 is a better model.
+
+We can plot the N by N (where N is the number of residues) PAE scores with ggplot or with functions from the Bio3D package:
+```{r}
+plot.dmat(pae1$pae, 
+          xlab="Residue Position (i)",
+          ylab="Residue Position (j)")
+plot.dmat(pae5$pae, 
+          xlab="Residue Position (i)",
+          ylab="Residue Position (j)",
+          grid.col = "black",
+          zlim=c(0,30))
+```
+
+By using the same color range between model 1 and model 5, we can better compare these two graphs. 
+
+```{r}
+plot.dmat(pae1$pae, 
+          xlab="Residue Position (i)",
+          ylab="Residue Position (j)",
+          grid.col = "black",
+          zlim=c(0,30))
+```
+
+One obvious conclusion here is that model 1 has significantly higher PAE scores in a great fraction of residues, compared to model 5.
+
+## Residue conservation from alignment file
+
+```{r}
+aln_file <- list.files(path=results_dir,
+                       pattern=".a3m$",
+                        full.names = TRUE)
+aln_file
+```
+
+```{r}
+aln <- read.fasta(aln_file[1], to.upper = TRUE)
+```
+
+We can find how many sequences are in the alignment by using the dim() function. 
+
+```{r}
+dim(aln$ali)
+```
+
+We can score residue conservation in the alignment with the `conserv()` function.
+
+```{r}
+sim <- conserv(aln)
+plotb3(sim[1:99], sse=trim.pdbs(pdbs, chain="A"),
+       ylab="Conservation Score")
+```
+
+Note the conserved Active Site residues D25, T26, G27, A28. These positions will stand out if we generate a consensus sequence with a high cutoff value:
+
+```{r}
+con <- consensus(aln, cutoff = 0.9)
+con$seq
+```
+Now, it is even more notable that the active site "DTGA" is extremely conserved throughout the alignment.
+
+For a final visualization of these functionally important sites we can map this conservation score to the Occupancy column of a PDB file for viewing in molecular viewer programs such as Mol*.
+
+```{r}
+m1.pdb <- read.pdb(pdb_files[1])
+occ <- vec2resno(c(sim[1:99], sim[1:99]), m1.pdb$atom$resno)
+write.pdb(m1.pdb, o=occ, file="m1_conserv.pdb")
+```
+
+![](Conservation.png)
+
+The regions with high conservation scores are in dark purple. The DTGA site is in green. 
+
