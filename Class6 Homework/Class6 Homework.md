@@ -1,12 +1,10 @@
----
-title: "Class6 Homework"
-author: "Yuntian Zhu (PID: A17816597)"
-format: gfm
----
+# Class6 Homework
+Yuntian Zhu (PID: A17816597)
 
-**I want to condense the codes in the supplement file to a function that can be easily called**
+**I want to condense the codes in the supplement file to a function that
+can be easily called**
 
-```{r}
+``` r
 # This function analyzes protein B-factor trends by:
 # 1. Reading protein structure data from the Protein Data Bank (PDB)
 # 2. Extracting a specified chain and atom type
@@ -42,23 +40,39 @@ plot_pdb_bfactor <- function (pdbid, chain = "A", elety = "CA"){
     )
   
 }
-  
 ```
 
 Test one with the ID 4AKE
 
-```{r}
+``` r
 plot_pdb_bfactor("4AKE")
 ```
 
+      Note: Accessing on-line PDB file
+
+![](Class6-Homework_files/figure-commonmark/unnamed-chunk-2-1.png)
+
 Test two with the ID 4AKE and chain B
 
-```{r}
+``` r
 plot_pdb_bfactor("4AKE", chain = "B")
 ```
 
+      Note: Accessing on-line PDB file
+
+    Warning in get.pdb(file, path = tempdir(), verbose = FALSE):
+    /var/folders/j9/c6jg3wlj0wx7jw6ws7j7znnw0000gn/T//RtmpvIXeiJ/4AKE.pdb exists.
+    Skipping download
+
+![](Class6-Homework_files/figure-commonmark/unnamed-chunk-3-1.png)
+
 Test three with the ID 1AKE
 
-```{r}
+``` r
 plot_pdb_bfactor("1AKE")
 ```
+
+      Note: Accessing on-line PDB file
+       PDB has ALT records, taking A only, rm.alt=TRUE
+
+![](Class6-Homework_files/figure-commonmark/unnamed-chunk-4-1.png)
