@@ -61,7 +61,7 @@ plot_pdb_bfactor("4AKE", chain = "B")
       Note: Accessing on-line PDB file
 
     Warning in get.pdb(file, path = tempdir(), verbose = FALSE):
-    /var/folders/j9/c6jg3wlj0wx7jw6ws7j7znnw0000gn/T//RtmpvIXeiJ/4AKE.pdb exists.
+    /var/folders/j9/c6jg3wlj0wx7jw6ws7j7znnw0000gn/T//RtmpJ38M0p/4AKE.pdb exists.
     Skipping download
 
 ![](Class6-Homework_files/figure-commonmark/unnamed-chunk-3-1.png)
