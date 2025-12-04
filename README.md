@@ -14,4 +14,8 @@ Classwork for [BIMM143 at UC San Diego](https://bioboot.github.io/bimm143_F25/) 
 - Class 14 [Hands-on with Git and GitHub]
 - Class 15 [Essential UNIX for Bioinformatics]
 - Class 16
+- Class 17
+- Class 18
+- Class 19
+- 
 
