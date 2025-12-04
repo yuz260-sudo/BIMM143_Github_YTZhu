@@ -13,4 +13,5 @@ Classwork for [BIMM143 at UC San Diego](https://bioboot.github.io/bimm143_F25/) 
 - Class 13 [RNA-Seq Mini-Project]
 - Class 14 [Hands-on with Git and GitHub]
 - Class 15 [Essential UNIX for Bioinformatics]
+- Class 16
 
