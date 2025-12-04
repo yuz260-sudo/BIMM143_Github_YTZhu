@@ -1,7 +1,8 @@
 ---
 title: "Class09"
 author: "Yuntian Zhu (PID: A17816597)"
-format: html
+format: gfm
+prefer-html: true
 ---
 
 The main database for structural biology is PDB. Let us take a look at what it contains:
