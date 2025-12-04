@@ -17,5 +17,4 @@ Classwork for [BIMM143 at UC San Diego](https://bioboot.github.io/bimm143_F25/) 
 - Class 17
 - Class 18
 - Class 19
-- 
 
