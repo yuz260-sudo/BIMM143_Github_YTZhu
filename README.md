@@ -1,6 +1,7 @@
 # BIMM143_Github_YTZhu
 Classwork for [BIMM143 at UC San Diego](https://bioboot.github.io/bimm143_F25/) during Fall 2025
 
+- Class 04 [Bioinformatics data analysis with R](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class4/Class4.md)
 - Class 05 [Data Visualization with ggplot](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/class05/class05.md)
 - Class 06 [Writing Your Own R Functions](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class6%20Homework/Class6%20Homework.md)
 - Class 07 [Introduction to Machine Learning for Bioinformatics 1](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class07/Class07.md)
@@ -16,6 +17,7 @@ Classwork for [BIMM143 at UC San Diego](https://bioboot.github.io/bimm143_F25/) 
 - Class 19 [Mini Project: Investigating Pertussis Resurgence](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class19/Class19.md)
 - Class 20 [GitHub pages, online portfolio completion, GitHub copilot]
 <br>
-
+Class 01, Class 02 and Class 03 are about basic database searching, which did not yield R Quarto Documents
 Class 13 was canceled due to Veterans Day holiday; Class 18 was canceled due to Thanksgiving holiday
+Class 15, Class 16 and Class 20 are about Unix and Github, which did not yield R Quarto Documents
 
