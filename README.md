@@ -8,8 +8,8 @@ Classwork for [BIMM143 at UC San Diego](https://bioboot.github.io/bimm143_F25/) 
 - Class 09 [Structural Bioinformatics (Part 1)](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class09/Class09.md)
 - Class 10 [Halloween Candy Mini-Project](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class10/Class10.md)
 - Class 11 [Structural Bioinformatics (AlphaFold)](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class11/Class11.md)
-- Class 12 [Transcriptomics & RNA-Seq Analysis]
-- Class 13 [RNA-Seq Mini-Project]
+- Class 12 [Transcriptomics & RNA-Seq Analysis](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class12/Class12.md)
+- Class 13 [RNA-Seq Mini-Project]()
 - Class 14 [Hands-on with Git and GitHub]
 - Class 15 
 - Class 16
