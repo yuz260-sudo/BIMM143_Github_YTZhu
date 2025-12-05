@@ -1,0 +1,118 @@
+---
+title: "Analyzing Cloud Data"
+author: "Yuntian Zhu (PID: A17816597)"
+format: pdf
+toc: true
+---
+
+## Data Import
+
+First, let's input the analysis results that are done on AWS.
+
+```{r}
+library(tximport)
+library(rhdf5)
+
+# Make sure you are in the correct directory
+setwd("/Users/apple")
+
+# Find the quant directories
+folders <- dir(pattern="_quant$")
+
+# Extract sample names
+samples <- sub("_quant", "", folders)
+
+# Build the full paths to abundance.h5
+files <- file.path(folders, "abundance.h5")
+names(files) <- samples
+
+# Import
+txi.kallisto <- tximport(files, type="kallisto", txOut=TRUE)
+```
+
+We can take a look at our data.
+
+```{r}
+head(txi.kallisto$counts)
+```
+
+Let's find how many transcripts we have for each sample, and how many transcripts are detected in at least one sample
+
+```{r}
+colSums(txi.kallisto$counts)
+```
+```{r}
+sum(rowSums(txi.kallisto$counts)>0)
+```
+
+Then, let's do some data cleaning.
+
+```{r}
+to.keep <- rowSums(txi.kallisto$counts) > 0
+kset.nonzero <- txi.kallisto$counts[to.keep,]
+keep2 <- apply(kset.nonzero,1,sd)>0
+x <- kset.nonzero[keep2,]
+```
+
+## PCA
+
+After importing the data and cleaning them, we can start the principal componenet analysis. 
+
+```{r}
+pca <- prcomp(t(x), scale=TRUE)
+summary(pca)
+```
+
+Finally, let's make the PCA plots about PC1, PC2 and PC3 using the ggplot and ggrepel packages. 
+
+```{r}
+library(ggplot2)
+library(ggrepel)
+
+# Make metadata object for the samples
+colData <- data.frame(condition = factor(rep(c("control", "treatment"), each = 2)))
+rownames(colData) <- colnames(txi.kallisto$counts)
+
+# Make the data.frame for ggplot 
+y <- as.data.frame(pca$x)
+y$Condition <- as.factor(colData$condition)
+
+ggplot(y) +
+  aes(PC1, PC2, col=Condition) +
+  geom_point() +
+  geom_text_repel(label=rownames(y)) +
+  theme_bw()
+```
+
+```{r}
+# Make metadata object for the samples
+colData <- data.frame(condition = factor(rep(c("control", "treatment"), each = 2)))
+rownames(colData) <- colnames(txi.kallisto$counts)
+
+# Make the data.frame for ggplot 
+y <- as.data.frame(pca$x)
+y$Condition <- as.factor(colData$condition)
+
+ggplot(y) +
+  aes(PC1, PC3, col=Condition) +
+  geom_point() +
+  geom_text_repel(label=rownames(y)) +
+  theme_bw()
+```
+
+```{r}
+# Make metadata object for the samples
+colData <- data.frame(condition = factor(rep(c("control", "treatment"), each = 2)))
+rownames(colData) <- colnames(txi.kallisto$counts)
+
+# Make the data.frame for ggplot 
+y <- as.data.frame(pca$x)
+y$Condition <- as.factor(colData$condition)
+
+ggplot(y) +
+  aes(PC2, PC3, col=Condition) +
+  geom_point() +
+  geom_text_repel(label=rownames(y)) +
+  theme_bw()
+```
+
