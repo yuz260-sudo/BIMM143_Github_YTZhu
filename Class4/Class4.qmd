@@ -1,7 +1,7 @@
 ---
 title: "Class4"
 author: "Yuntian Zhu(PID: A17816597)"
-format: html
+format: gfm
 date: 10-9-2025
 ---
 
