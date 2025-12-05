@@ -11,11 +11,11 @@ Classwork for [BIMM143 at UC San Diego](https://bioboot.github.io/bimm143_F25/) 
 - Class 11 [Structural Bioinformatics (AlphaFold)](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class11/Class11.md)
 - Class 12 [Transcriptomics & RNA-Seq Analysis](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class12/Class12.md)
 - Class 14 [RNA-Seq Mini-Project](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class14/Class14.md)
-- Class 15 [Hands-on with Git and GitHub]
-- Class 16 [Essential UNIX for bioinformatics]
+- Class 15 Hands-on with Git and GitHub
+- Class 16 Essential UNIX for bioinformatics
 - Class 17 [Genome informatics](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class17/Class17.md)
 - Class 19 [Mini Project: Investigating Pertussis Resurgence](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class19/Class19.md)
-- Class 20 [GitHub pages, online portfolio completion, GitHub copilot]
+- Class 20 GitHub pages, online portfolio completion, GitHub copilot
 - * Class 01, Class 02 and Class 03 are about basic database searching, which did not yield R Quarto Documents
 - * Class 13 was canceled due to Veterans Day holiday; Class 18 was canceled due to Thanksgiving holiday
 - * Class 15, Class 16 and Class 20 are about Unix and Github, which did not yield R Quarto Documents
