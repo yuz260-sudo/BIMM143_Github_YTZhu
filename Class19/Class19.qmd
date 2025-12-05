@@ -1,7 +1,7 @@
 ---
 title: "Class19"
 author: "Yuntian Zhu (PID: A17816597)"
-format: pdf
+format: gfm
 toc: true
 ---
 
