@@ -12,7 +12,7 @@ Classwork for [BIMM143 at UC San Diego](https://bioboot.github.io/bimm143_F25/) 
 - Class 14 [RNA-Seq Mini-Project](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class14/Class14.md)
 - Class 15 [Hands-on with Git and GitHub]
 - Class 16 [Essential UNIX for bioinformatics]
-- Class 17 [Genome informatics]
+- Class 17 [Genome informatics](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class17/Class17.md)
 - Class 19 [Mini Project: Investigating Pertussis Resurgence]
 - Class 20 [GitHub pages, online portfolio completion, GitHub copilot]
 - Class 13 was canceled due to Veterans Day holiday; Class 18 was canceled due to Thanksgiving holiday
