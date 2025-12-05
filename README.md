@@ -16,7 +16,6 @@ Classwork for [BIMM143 at UC San Diego](https://bioboot.github.io/bimm143_F25/) 
 - Class 17 [Genome informatics](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class17/Class17.md)
 - Class 19 [Mini Project: Investigating Pertussis Resurgence](https://github.com/yuz260-sudo/BIMM143_Github_YTZhu/blob/main/Class19/Class19.md)
 - Class 20 [GitHub pages, online portfolio completion, GitHub copilot]
-<br>
 Class 01, Class 02 and Class 03 are about basic database searching, which did not yield R Quarto Documents
 Class 13 was canceled due to Veterans Day holiday; Class 18 was canceled due to Thanksgiving holiday
 Class 15, Class 16 and Class 20 are about Unix and Github, which did not yield R Quarto Documents
